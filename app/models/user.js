@@ -40,6 +40,9 @@ var UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    whatsapp_no: {
+        type: String
+    },
     profile_pic: {
         type: String,
     },

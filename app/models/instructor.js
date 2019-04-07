@@ -32,6 +32,9 @@ var InstructorSchema = new mongoose.Schema({
         required: true,
         index: { unique: true },
     },
+    whatsapp_no: {
+        type: String
+    },
     email_id: {
         type: String,
         required: true,

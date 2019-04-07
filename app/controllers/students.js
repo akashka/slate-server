@@ -23,9 +23,6 @@ exports.updateStudent = function (req, res, next) {
     let student = req.body;
     delete student._id;
 
-    console.log(student);
-    console.log(id);
-
     Student.findOneAndUpdate({ _id: id }, student, { upsert: true, new: true }, function (err, student) {
         if (err) return res.send(err);
         res.json(student);
