@@ -48,7 +48,6 @@ var UserSchema = new mongoose.Schema({
     },
     user_state: {
         type: String,
-        required: true,
     },
     user_district: {
         type: String

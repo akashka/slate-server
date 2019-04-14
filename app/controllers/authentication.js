@@ -123,11 +123,19 @@ exports.forgotPassword = function (req, res, next) {
 }
 
 exports.register = function (req, res, next) {
+    var name = req.body.name;
+    var user_name = req.body.user_name;
     var email = req.body.email;
     var password = req.body.password;
+    var confirm_password = req.body.confirm_password;
+    var phone_no = req.body.phone_no;
+    var gender = req.body.gender;
     var role = req.body.role;
-    var center = req.body.center;
-    var name = req.body.name;
+    var dob = req.body.dob;
+    var profile_pic = req.body.profile_pic;
+    var user_state = req.body.user_state;
+    var user_district = req.body.user_district;
+    var user_center = req.body.user_center;
     var active = req.body.active;
 
     if (!email) {
@@ -144,11 +152,19 @@ exports.register = function (req, res, next) {
             return res.status(422).send({ error: 'That email address is already in use' });
         }
         var user = new User({
+            name: name,
+            user_name: user_name,
             email: email,
             password: password,
+            confirm_password: confirm_password,
+            phone_no: phone_no,
+            gender: gender,
             role: role,
-            center: center,
-            name: name,
+            dob: dob,
+            profile_pic: profile_pic,
+            user_state: user_state,
+            user_district: user_district,
+            user_center: user_center,
             active: active
         });
         user.save(function (err, user) {
@@ -165,11 +181,19 @@ exports.register = function (req, res, next) {
 }
 
 exports.update = function (req, res, next) {
+    var name = req.body.name;
+    var user_name = req.body.user_name;
     var email = req.body.email;
     var password = req.body.password;
+    var confirm_password = req.body.confirm_password;
+    var phone_no = req.body.phone_no;
+    var gender = req.body.gender;
     var role = req.body.role;
-    var center = req.body.center;
-    var name = req.body.name;
+    var dob = req.body.dob;
+    var profile_pic = req.body.profile_pic;
+    var user_state = req.body.user_state;
+    var user_district = req.body.user_district;
+    var user_center = req.body.user_center;
     var active = req.body.active;
 
     if (!email) {
@@ -182,15 +206,24 @@ exports.update = function (req, res, next) {
 
         var id = existingUser._id;
         delete existingUser._id;
+        delete existingUser.__v;
 
         console.log(password);
 
         bcrypt.hash(password, 10, function (err, hash) {
             existingUser.email = email;
             if (req.body.password != "") existingUser.password = hash;
-            existingUser.role = role;
-            existingUser.center = center;
             existingUser.name = name;
+            existingUser.user_name = user_name;
+            existingUser.email = email;
+            existingUser.phone_no = phone_no;
+            existingUser.gender = gender;
+            existingUser.role = role;
+            existingUser.dob = dob;
+            existingUser.profile_pic = profile_pic;
+            existingUser.user_state = user_state;
+            existingUser.user_district = user_district;
+            existingUser.user_center = user_center;
             existingUser.active = active;
 
             console.log(existingUser);
@@ -201,7 +234,7 @@ exports.update = function (req, res, next) {
                 }
                 var userInfo = setUserInfo(user);
                 res.status(201).json({
-                    token: 'JWT ' + generateToken(userInfo),
+                    // token: 'JWT ' + generateToken(userInfo),
                     user: userInfo
                 })
             });
