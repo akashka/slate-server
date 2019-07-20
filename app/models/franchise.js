@@ -112,6 +112,21 @@ var FranchiseSchema = new mongoose.Schema({
     enquiry_datetime: {
         type: Date,
         default: new Date()
+    },
+    gstin_no: {
+        type: String,
+    },
+    royalty_percentage: {
+        type: String,
+    },
+    bank_account_number: {
+        type: String,
+    },
+    bank_account_name: {
+        type: String,
+    },
+    bank_ifsc_code: {
+        type: String,
     }
 
 }, {

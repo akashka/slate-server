@@ -77,6 +77,43 @@ var StudentSchema = new mongoose.Schema({
     enquiry_datetime: {
         type: Date,
         default: new Date()
+    },
+    registration_fee: {
+        type: Number,
+        default: 0,
+    },
+    kit_fee: {
+        type: Number,
+        default: 0,
+    },
+    extra_fee: {
+        type: Number,
+        default: 0,
+    },
+    discount: {
+        type: Number,
+        default: 0,
+    },
+    total_amount_paid: {
+        type: Number,
+        default: 0,
+    },
+    kit_number: {
+        type: String,
+    },
+    course_instructor: {
+        type: String,
+    },
+    level: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+    promotions: {
+        type: Array,
+    },
+    attendance: {
+        type: Array,
     }
 
 }, {
@@ -84,3 +121,12 @@ var StudentSchema = new mongoose.Schema({
 });
  
 module.exports = mongoose.model('Student', StudentSchema);
+
+/* promotion: {
+    promotion_date, promotion_by, promotion_to, marks_scored, marks_sheet attachment, remarks,
+    student_payment_amount, student_payment_date, student_payment_mode, , center_payment, 
+} */
+
+/* attendance: {level, attendance_datetime, attendance_by, attendance_location} */
+
+/*  */
