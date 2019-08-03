@@ -95,7 +95,7 @@ module.exports = function (app) {
     apiRoutes.use('/pricemapping', priceMappingRoutes);
     priceMappingRoutes.get('/', PriceMappingController.getPriceMapping);
     priceMappingRoutes.post('/', PriceMappingController.createPriceMapping);
-    priceMappingRoutes.put('/', PriceMappingController.updatePriceMapping);
+    // priceMappingRoutes.put('/', PriceMappingController.updatePriceMapping);
 
     // inventoty routes
     apiRoutes.use('/inventory', inventoryRoutes);

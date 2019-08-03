@@ -23,6 +23,11 @@ var CenterSchema = new mongoose.Schema({
     active: {
         type: Boolean,
         default: true
+    },
+    programs: {
+        type: Array,
+        default: ['5c7a93b6bad67372d48c6c17', '5d2219df5bedd22d45e768e6', '5d221a005bedd22d45e768e7', '5d221a215bedd22d45e768e8'],
+        required: true
     }
 
 }, {

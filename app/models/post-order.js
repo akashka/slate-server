@@ -6,6 +6,10 @@ var PostOrderSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    dispatch_center: {
+        type: String,
+        required: true,
+    },
     order_date: {
         type: Date,
         required: true,
