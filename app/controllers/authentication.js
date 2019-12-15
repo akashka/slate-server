@@ -59,20 +59,28 @@ exports.login = function (req, res, next) {
     User.findOne({ email: req.body.email }, function (err, existingUser) {
         if (err) return next(err);
         if (existingUser && existingUser.active) {
-            bcrypt.hash(req.body.password, 10, function (err, hash) {
-                if (err) return next(err);
-                // if (hash != existingUser.password) return next('Password mismatch');
-                // else {
+            bcrypt.compare(req.body.password,existingUser._doc.password,function(err1,res1){
+                if(res1 == true){
+                    console.log('true');
                     var userInfo = setUserInfo(existingUser);
                     console.log(userInfo);
                     res.status(200).json({
                         token: 'JWT ' + generateToken(userInfo),
                         user: userInfo
                     });
-                // }
+                }
+                else{
+                    res.status(404).send({
+                        status: 'Failure',
+                        message: 'Password Mismatch'
+                    })
+                }
             });
         } else {
-            return next('No user');
+            res.status(404).send({
+                status: 'Failure',
+                message: 'User Does Not Exist'
+            })
         }
     });
 }
@@ -129,6 +137,7 @@ exports.register = function (req, res, next) {
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
     var phone_no = req.body.phone_no;
+    var whatsapp_no = req.body.whatsapp_no;
     var gender = req.body.gender;
     var role = req.body.role;
     var dob = req.body.dob;
@@ -158,6 +167,7 @@ exports.register = function (req, res, next) {
             password: password,
             confirm_password: confirm_password,
             phone_no: phone_no,
+            whatsapp_no: whatsapp_no,
             gender: gender,
             role: role,
             dob: dob,
@@ -187,6 +197,7 @@ exports.update = function (req, res, next) {
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
     var phone_no = req.body.phone_no;
+    var whatsapp_no = req.body.whatsapp_no;
     var gender = req.body.gender;
     var role = req.body.role;
     var dob = req.body.dob;
@@ -217,6 +228,7 @@ exports.update = function (req, res, next) {
             existingUser.user_name = user_name;
             existingUser.email = email;
             existingUser.phone_no = phone_no;
+            existingUser.whatsapp_no = whatsapp_no;
             existingUser.gender = gender;
             existingUser.role = role;
             existingUser.dob = dob;
