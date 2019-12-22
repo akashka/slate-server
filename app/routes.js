@@ -42,10 +42,11 @@ module.exports = function (app) {
     authRoutes.post('/register', AuthenticationController.register);
     authRoutes.post('/update', AuthenticationController.update);
     authRoutes.post('/delete', AuthenticationController.delete);
-    authRoutes.post('/login', AuthenticationController.login);
+    authRoutes.post('/login', requireLogin, AuthenticationController.login);
     authRoutes.post('/forgotPassword', AuthenticationController.forgotPassword);
     authRoutes.get('/usersList', AuthenticationController.getUsers);
-    authRoutes.get('/protected', function (req, res) {
+    authRoutes.get('/protected', requireAuth, function (req, res) {
+        console.log(req);
         res.send({ content: 'Success' });
     });
 
