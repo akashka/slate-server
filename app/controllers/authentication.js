@@ -50,7 +50,8 @@ function setUserInfo(request) {
         user_state: request.user_state,
         user_district: request.user_district,
         user_center: request.user_center,
-        active: request.active
+        active: request.active,
+        whatsapp_no: request.whatsapp_no
     };
 }
 
@@ -59,20 +60,28 @@ exports.login = function (req, res, next) {
     User.findOne({ email: req.body.email }, function (err, existingUser) {
         if (err) return next(err);
         if (existingUser && existingUser.active) {
-            bcrypt.hash(req.body.password, 10, function (err, hash) {
-                if (err) return next(err);
-                // if (hash != existingUser.password) return next('Password mismatch');
-                // else {
+            bcrypt.compare(req.body.password,existingUser._doc.password,function(err1,res1){
+                if(res1 == true){
+                    console.log('true');
                     var userInfo = setUserInfo(existingUser);
                     console.log(userInfo);
                     res.status(200).json({
                         token: 'JWT ' + generateToken(userInfo),
                         user: userInfo
                     });
-                // }
+                }
+                else{
+                    res.status(404).send({
+                        status: 'Failure',
+                        message: 'Password Mismatch'
+                    })
+                }
             });
         } else {
-            return next('No user');
+            res.status(404).send({
+                status: 'Failure',
+                message: 'User Does Not Exist'
+            })
         }
     });
 }
@@ -129,6 +138,7 @@ exports.register = function (req, res, next) {
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
     var phone_no = req.body.phone_no;
+    var whatsapp_no = req.body.whatsapp_no;
     var gender = req.body.gender;
     var role = req.body.role;
     var dob = req.body.dob;
@@ -158,6 +168,7 @@ exports.register = function (req, res, next) {
             password: password,
             confirm_password: confirm_password,
             phone_no: phone_no,
+            whatsapp_no: whatsapp_no,
             gender: gender,
             role: role,
             dob: dob,
@@ -185,8 +196,9 @@ exports.update = function (req, res, next) {
     var user_name = req.body.user_name;
     var email = req.body.email;
     var password = req.body.password;
-    var confirm_password = req.body.confirm_password;
+    // var confirm_password = req.body.confirm_password;
     var phone_no = req.body.phone_no;
+    var whatsapp_no = req.body.whatsapp_no;
     var gender = req.body.gender;
     var role = req.body.role;
     var dob = req.body.dob;
@@ -208,39 +220,75 @@ exports.update = function (req, res, next) {
         delete existingUser._id;
         delete existingUser.__v;
 
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>',existingUser);
+
         console.log(password);
 
-        bcrypt.hash(password, 10, function (err, hash) {
-            existingUser.email = email;
-            if (req.body.password != "") existingUser.password = hash;
-            existingUser.name = name;
-            existingUser.user_name = user_name;
-            existingUser.email = email;
-            existingUser.phone_no = phone_no;
-            existingUser.gender = gender;
-            existingUser.role = role;
-            existingUser.dob = dob;
-            existingUser.profile_pic = profile_pic;
-            existingUser.user_state = user_state;
-            existingUser.user_district = user_district;
-            existingUser.user_center = user_center;
-            existingUser.active = active;
-
-            console.log(existingUser);
-
-            User.findOneAndUpdate({ _id: id }, existingUser, { upsert: true, new: true }, function (err, user) {
-                if (err) {
-                    return next(err);
+        if(password != existingUser.password){
+            bcrypt.hash(password, 10, function (err, hash) {
+                var userData={
+                email: email,
+                name : name,
+                user_name : user_name,
+                email : email,
+                phone_no : phone_no,
+                whatsapp_no : whatsapp_no,
+                gender : gender,
+                role : role,
+                dob : dob,
+                profile_pic : profile_pic,
+                user_state : user_state,
+                user_district : user_district,
+                user_center : user_center,
+                active : active,
+                password: hash
                 }
-                var userInfo = setUserInfo(user);
-                res.status(201).json({
-                    // token: 'JWT ' + generateToken(userInfo),
-                    user: userInfo
-                })
+                console.log(userData);
+    
+                User.findOneAndUpdate({ _id: id }, userData, { upsert: true, new: true }, function (err, user) {
+                    if (err) {
+                        return next(err);
+                    }
+                    var userInfo = setUserInfo(user);
+                    res.status(201).json({
+                        // token: 'JWT ' + generateToken(userInfo),
+                        user: userInfo
+                    })
+                });
+    
             });
-
-        });
-
+        }
+        else{
+            var userData={
+                email: email,
+                name : name,
+                user_name : user_name,
+                email : email,
+                phone_no : phone_no,
+                whatsapp_no : whatsapp_no,
+                gender : gender,
+                role : role,
+                dob : dob,
+                profile_pic : profile_pic,
+                user_state : user_state,
+                user_district : user_district,
+                user_center : user_center,
+                active : active,
+                password: password
+                }
+                console.log(userData);
+    
+                User.findOneAndUpdate({ _id: id }, userData, { upsert: true, new: true }, function (err, user) {
+                    if (err) {
+                        return next(err);
+                    }
+                    var userInfo = setUserInfo(user);
+                    res.status(201).json({
+                        // token: 'JWT ' + generateToken(userInfo),
+                        user: userInfo
+                    })
+                });
+        }
     });
 }
 
