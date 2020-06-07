@@ -130,6 +130,12 @@ module.exports = function(app) {
   onlineRoutes.post("/", OnlineController.createOnline);
   onlineRoutes.put("/", OnlineController.updateOnline);
 
+  apiRoutes.use("/generateOTP", onlineRoutes);
+  onlineRoutes.get("/:phonenumber", OnlineController.generateOTP);
+  
+  apiRoutes.use("/uploadToS3", onlineRoutes);
+  onlineRoutes.post('/', OnlineController.uploadToS3);
+
   // Set up routes
   app.use("/api", apiRoutes);
 };

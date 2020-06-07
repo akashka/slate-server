@@ -71,13 +71,6 @@ var OnlineSchema = new mongoose.Schema(
     referralcode: {
       type: String
     },
-    otp: {
-      type: String
-    },
-    otpvalidated: {
-      type: Boolean,
-      default: false
-    }
   },
   {
     timestamps: true
