@@ -1,13 +1,6 @@
 var Online = require('../models/online');
 
 exports.getOnline = function (req, res, next) {
-    console.log('---------------------------------------------------------');
-    console.log('---------------------------------------------------------');
-    console.log('---------------------------------------------------------');
-    console.log(req);
-    console.log('---------------------------------------------------------');
-    console.log('---------------------------------------------------------');
-    console.log('---------------------------------------------------------');
     Online.find(function (err, onlines) {
         if (err) { res.send(err); }
         res.json(onlines);
@@ -15,6 +8,13 @@ exports.getOnline = function (req, res, next) {
 }
 
 exports.createOnline = function (req, res, next) {
+    console.log('---------------------------------------------------------');
+    console.log('---------------------------------------------------------');
+    console.log('---------------------------------------------------------');
+    console.log(req);
+    console.log('---------------------------------------------------------');
+    console.log('---------------------------------------------------------');
+    console.log('---------------------------------------------------------');
     let online = req.body;
     Online.create(online, function (err, online) {
         if (err) { res.send(err); }
