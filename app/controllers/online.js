@@ -16,6 +16,12 @@ exports.createOnline = function (req, res, next) {
     console.log('---------------------------------------------------------');
     console.log('---------------------------------------------------------');
     let online = req.body;
+    console.log('req.body strts --------------');
+    console.log(req.body);
+    console.log('req.files strts --------------');
+    console.log(req.files);
+    console.log('req.file strts --------------');
+    console.log(req.file);
     Online.create(online, function (err, online) {
         if (err) { res.send(err); }
         res.json(online);
