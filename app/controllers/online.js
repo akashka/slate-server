@@ -8,23 +8,21 @@ exports.getOnline = function (req, res, next) {
 }
 
 exports.createOnline = function (req, res, next) {
-    console.log('---------------------------------------------------------');
-    console.log('---------------------------------------------------------');
-    console.log('---------------------------------------------------------');
-    console.log(req);
-    console.log('---------------------------------------------------------');
-    console.log('---------------------------------------------------------');
-    console.log('---------------------------------------------------------');
-    let online = req.body;
-    console.log('req.body strts --------------');
-    console.log(req.body);
-    console.log('req.files strts --------------');
-    console.log(req.files);
-    console.log('req.file strts --------------');
-    console.log(req.file);
-    Online.create(online, function (err, online) {
-        if (err) { res.send(err); }
-        res.json(online);
+    console.log('req.headers ------------------------------');
+    console.log(req.headers);
+    console.log('req.headers ------------------------------');
+
+    // capture the encoded form data
+    req.on('data', (data) => {
+        console.log('data.toString() ------------------------------');
+        console.log(data.toString());
+        console.log('data.toString() ------------------------------');
+    });
+  
+    req.on('end', (data) => {
+        console.log('data.toString() ------------------------------');
+        console.log(data.toString());
+        console.log('data.toString() ------------------------------');
     });
 }
 
