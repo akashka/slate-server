@@ -61,7 +61,10 @@ exports.generateOTP = function(req, res, next) {
     " This is valid for 15 minutes only. Do not share this OTP with anyone for security reasons.";
   var formData = smsUrl + username + "&text=" + encodeURIComponent(messageData);
   curl.request(formData, function optionalCallback(err, body) {
-    if (err) return res.send(err);
+    if (err) {
+      console.log(err);
+      return res.send(err);
+    }
     res.json(body);
   });
 };
