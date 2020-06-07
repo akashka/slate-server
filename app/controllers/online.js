@@ -15,13 +15,13 @@ exports.createOnline = function (req, res, next) {
     // capture the encoded form data
     req.on('data', (data) => {
         console.log('data.toString() ------------------------------');
-        console.log(data.toString());
+        console.log(JSON.stringify(data));
         console.log('data.toString() ------------------------------');
     });
   
     req.on('end', (data) => {
         console.log('data.toString() ------------------------------');
-        console.log(data.toString());
+        console.log(JSON.stringify(data));
         console.log('data.toString() ------------------------------');
     });
 }
