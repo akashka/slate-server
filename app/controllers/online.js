@@ -22,12 +22,37 @@ exports.payments = function(req, res, next) {
       res.send(err);
     }
     online = online[0];
-    delete online._id;
-    delete online.__v;
-    online.paymentStatus = body.txStatus;
+    var ols = { 
+      paymentStatus: online.txStatus,
+      txtsname: online.txtsname,
+      txtsdob: online.txtsdob,
+      txtsadd: online.txtsadd,
+      txtscontact: online.txtscontact,
+      txtsemail: online.txtsemail,
+      txtlanguage: online.txtlanguage,
+      txtinterest: online.txtinterest,
+      txtschool: online.txtschool,
+      txtschooladd: online.txtschooladd,
+      txtfname: online.txtfname,
+      txtfoccupation: online.txtfoccupation,
+      txtfoffadd: online.txtfoffadd,
+      txtfoffcontact: online.txtfoffcontact,
+      txtfmail: online.txtfmail,
+      txtmname: online.txtmname,
+      txtmoccupation: online.txtmoccupation,
+      txtmoffadd: online.txtmoffadd,
+      txtmoffcontact: online.txtmoffcontact,
+      txtmmail: online.txtmmail,
+      txthdyk: online.txthdyk,
+      photo: online.photo,
+      idproof: online.idproof,
+      referralcode: online.referralcode,
+      txtprograms: online.txtprograms
+    };
+
     Online.findOneAndUpdate(
       { _id: body.orderId },
-      online,
+      ols,
       { upsert: true, new: true },
       function(err, online) {
         if (err) return res.send(err);
@@ -37,7 +62,6 @@ exports.payments = function(req, res, next) {
         }
         res.writeHead(301, { "Location": "http://www.alohaindia.com/payment-failure/" });
         return res.end();
-        // res.json(online);
       }
     );
   });  
