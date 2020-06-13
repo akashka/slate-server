@@ -2,6 +2,8 @@ var Online = require("../models/online");
 var otpGenerator = require("otp-generator");
 var curl = require("curlrequest");
 var AWS = require("aws-sdk");
+const crypto = require("crypto");
+const axios = require("axios");
 
 var smsUrl =
   "https://smsapp.mx9.in/smpp/?username=alohaindia&password=9790944889&from=ALOHAS&to=91";
@@ -11,6 +13,26 @@ const IAM_USER_KEY = "AKIAIFJ6LTJD65VW6V4A";
 const IAM_USER_SECRET1 = "XbbcDB1Qo92";
 const IAM_USER_SECRET2 = "wT2wnp4mO9qLGpD+";
 const IAM_USER_SECRET3 = "GNEEyfqqj4EoS";
+
+exports.payments = function(req, res, next) {
+  var body = req.body;
+  Online.find({_id: body.orderId}, function(err, online) {
+    if (err) {
+      res.send(err);
+    }
+    delete online._id;
+    online.paymentStatus = body.txStatus;
+    Online.findOneAndUpdate(
+      { _id: body.orderId },
+      online,
+      { upsert: true, new: true },
+      function(err, online) {
+        if (err) return res.send(err);
+        res.json(online);
+      }
+    );
+  });  
+}
 
 exports.getOnline = function(req, res, next) {
   Online.find(function(err, onlines) {
@@ -23,11 +45,10 @@ exports.getOnline = function(req, res, next) {
 
 exports.createOnline = function(req, res, next) {
   let online = req.body;
-  Online.create(online, function(err, online) {
-    if (err) {
-      res.send(err);
-    }
-    res.json(online);
+  Online.create(online, function(err, response) {
+    if (err) res.send(err);
+    var resp = createCheksum(response);
+    res.json(resp);
   });
 };
 
@@ -99,4 +120,32 @@ exports.uploadToS3 = function(req, res, next) {
       res.json(data);
     });
   });
+};
+
+createCheksum = function(online) {
+  var secretKey = "283652717282d5c46bd11312b6b5a0fcb02f9e85";
+  var postData = {
+    appId: "178734b4e7b64cebf065215a437871",
+    orderId: online._id,
+    orderAmount: (6500*online.txtprograms.length).toString(),
+    orderCurrency: 'INR',
+    customerName: online.txtsname,
+    customerPhone: online.txtscontact,
+    customerEmail: online.txtsemail,
+    returnUrl: "https://slate-server.herokuapp.com/api/online/payments",
+    notifyUrl: "https://slate-server.herokuapp.com/api/online/payments"
+  };
+
+  var keys = Object.keys(postData);
+  keys.sort();
+  var signatureData = "";
+  keys.forEach(key => {
+    signatureData += key + postData[key];
+  });
+  var signature = crypto
+    .createHmac("sha256", secretKey)
+    .update(signatureData)
+    .digest("base64");
+  postData.signature = signature;
+  return postData;
 };

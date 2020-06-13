@@ -14,6 +14,9 @@ var OnlineSchema = new mongoose.Schema(
     txtscontact: {
       type: String
     },
+    txtsemail: {
+      type: String
+    },
     txtlanguage: {
       type: String
     },
@@ -71,6 +74,9 @@ var OnlineSchema = new mongoose.Schema(
     referralcode: {
       type: String
     },
+    paymentStatus: {
+      type: String
+    }
   },
   {
     timestamps: true

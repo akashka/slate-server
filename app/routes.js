@@ -129,6 +129,7 @@ module.exports = function(app) {
   onlineRoutes.get("/", OnlineController.getOnline);
   onlineRoutes.post("/", OnlineController.createOnline);
   onlineRoutes.put("/", OnlineController.updateOnline);
+  onlineRoutes.post("/payments", OnlineController.payments);
 
   apiRoutes.get("/generateOTP/:phonenumber", OnlineController.generateOTP);
   apiRoutes.post("/uploadToS3", OnlineController.uploadToS3);
