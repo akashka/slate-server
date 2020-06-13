@@ -16,12 +16,14 @@ const IAM_USER_SECRET3 = "GNEEyfqqj4EoS";
 
 exports.payments = function(req, res, next) {
   var body = req.body;
+  console.log(body);
   Online.find({_id: body.orderId}, function(err, online) {
     if (err) {
       res.send(err);
     }
     online = online[0];
     delete online._id;
+    delete online.__v;
     online.paymentStatus = body.txStatus;
     Online.findOneAndUpdate(
       { _id: body.orderId },
@@ -29,7 +31,13 @@ exports.payments = function(req, res, next) {
       { upsert: true, new: true },
       function(err, online) {
         if (err) return res.send(err);
-        res.json(online);
+        if(body.txStatus === 'SUCCESS') {
+          res.writeHead(301, { "Location": "http://www.alohaindia.com/payment-success/" });
+          return res.end();
+        }
+        res.writeHead(301, { "Location": "http://www.alohaindia.com/payment-failure/" });
+        return res.end();
+        // res.json(online);
       }
     );
   });  
