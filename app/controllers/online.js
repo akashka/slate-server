@@ -15,24 +15,20 @@ const IAM_USER_SECRET2 = "wT2wnp4mO9qLGpD+";
 const IAM_USER_SECRET3 = "GNEEyfqqj4EoS";
 
 exports.payments = function(req, res, next) {
-  console.log('Payment called');
-  console.log(req.body);
   var body = req.body;
   Online.find({_id: body.orderId}, function(err, online) {
     if (err) {
       res.send(err);
     }
-    console.log(online);
+    online = online[0];
     delete online._id;
     online.paymentStatus = body.txStatus;
-    console.log(online);
     Online.findOneAndUpdate(
       { _id: body.orderId },
       online,
       { upsert: true, new: true },
       function(err, online) {
         if (err) return res.send(err);
-        console.log(online);
         res.json(online);
       }
     );
