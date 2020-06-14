@@ -24,26 +24,26 @@ app.use(
   })
 ); // Parses urlencoded bodies
 
-// app.post(
-//   "/uploadFile",
-//   multer({ dest: "../uploads/" }).array("uploads", 12),
-//   function(req, res) {
-//       console.log(req);
-//     var fileInfo = [];
-//     for (var i = 0; i < req.files.length; i++) {
-//       fileInfo.push({
-//         originalName: req.files[i].originalName,
-//         size: req.files[i].size,
-//         b64: new Buffer(fs.readFileSync(req.files[i].path)).toString("base64")
-//       });
-//       fs.unlink(req.files[i].path);
-//     }
-//     res.send(fileInfo);
-//   }
-// );
-
 app.use(bodyParser.json({ limit: "5000mb" })); // Send JSON responses
 app.use(logger("dev")); // Log requests to API using morgan
 app.use(cors());
+
+app.post(
+  "/uploadFile",
+  multer({ dest: "../uploads/" }).array("uploads", 12),
+  function(req, res) {
+    console.log(req);
+    var fileInfo = [];
+    for (var i = 0; i < req.files.length; i++) {
+      fileInfo.push({
+        originalName: req.files[i].originalName,
+        size: req.files[i].size,
+        b64: new Buffer(fs.readFileSync(req.files[i].path)).toString("base64")
+      });
+      fs.unlink(req.files[i].path);
+    }
+    res.send(fileInfo);
+  }
+);
 
 router(app);
