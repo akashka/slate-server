@@ -14,12 +14,13 @@ const IAM_USER_SECRET1 = "XbbcDB1Qo92";
 const IAM_USER_SECRET2 = "wT2wnp4mO9qLGpD+";
 const IAM_USER_SECRET3 = "GNEEyfqqj4EoS";
 
-const appId = "55951d4b110b9d49671830c8815955";
-const secretKey = "a282ad45ba9338cf0b9a707777bb4b821dc85375";
+// Prod
+// const appId = "55951d4b110b9d49671830c8815955";
+// const secretKey = "a282ad45ba9338cf0b9a707777bb4b821dc85375";
 
 // Test
-// const appId = '178734b4e7b64cebf065215a437871';
-// const secretKey = '283652717282d5c46bd11312b6b5a0fcb02f9e85';
+const appId = '178734b4e7b64cebf065215a437871';
+const secretKey = '283652717282d5c46bd11312b6b5a0fcb02f9e85';
 
 exports.payments = function(req, res, next) {
   var body = req.body;
@@ -195,6 +196,8 @@ exports.uploadToS3 = function(req, res, next) {
 };
 
 createCheksum = function(online) {
+  console.log(secretKey)
+  console.log(appId)
   var postData = {
     appId: appId,
     orderId: online._id,
