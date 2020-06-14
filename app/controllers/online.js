@@ -23,7 +23,7 @@ exports.payments = function(req, res, next) {
     }
     online = online[0];
     var ols = { 
-      paymentStatus: online.txStatus,
+      paymentStatus: body.txStatus,
       txtsname: online.txtsname,
       txtsdob: online.txtsdob,
       txtsadd: online.txtsadd,
