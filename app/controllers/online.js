@@ -17,12 +17,12 @@ const IAM_USER_SECRET3 = "GNEEyfqqj4EoS";
 exports.payments = function(req, res, next) {
   var body = req.body;
   console.log(body);
-  Online.find({_id: body.orderId}, function(err, online) {
+  Online.find({ _id: body.orderId }, function(err, online) {
     if (err) {
       res.send(err);
     }
     online = online[0];
-    var ols = { 
+    var ols = {
       paymentStatus: body.txStatus,
       txtsname: online.txtsname,
       txtsdob: online.txtsdob,
@@ -56,16 +56,20 @@ exports.payments = function(req, res, next) {
       { upsert: true, new: true },
       function(err, online) {
         if (err) return res.send(err);
-        if(body.txStatus === 'SUCCESS') {
-          res.writeHead(301, { "Location": "http://www.alohaindia.com/payment-success/" });
+        if (body.txStatus === "SUCCESS") {
+          res.writeHead(301, {
+            Location: "http://www.alohaindia.com/payment-success/"
+          });
           return res.end();
         }
-        res.writeHead(301, { "Location": "http://www.alohaindia.com/payment-failure/" });
+        res.writeHead(301, {
+          Location: "http://www.alohaindia.com/payment-failure/"
+        });
         return res.end();
       }
     );
-  });  
-}
+  });
+};
 
 exports.getOnline = function(req, res, next) {
   Online.find(function(err, onlines) {
@@ -90,9 +94,37 @@ exports.updateOnline = function(req, res, next) {
   let online = req.body;
   delete online._id;
 
+  var onl = {
+    paymentStatus: online.paymentStatus,
+    txtsname: online.txtsname,
+    txtsdob: online.txtsdob,
+    txtsadd: online.txtsadd,
+    txtscontact: online.txtscontact,
+    txtsemail: online.txtsemail,
+    txtlanguage: online.txtlanguage,
+    txtinterest: online.txtinterest,
+    txtschool: online.txtschool,
+    txtschooladd: online.txtschooladd,
+    txtfname: online.txtfname,
+    txtfoccupation: online.txtfoccupation,
+    txtfoffadd: online.txtfoffadd,
+    txtfoffcontact: online.txtfoffcontact,
+    txtfmail: online.txtfmail,
+    txtmname: online.txtmname,
+    txtmoccupation: online.txtmoccupation,
+    txtmoffadd: online.txtmoffadd,
+    txtmoffcontact: online.txtmoffcontact,
+    txtmmail: online.txtmmail,
+    txthdyk: online.txthdyk,
+    photo: online.photo,
+    idproof: online.idproof,
+    referralcode: online.referralcode,
+    txtprograms: online.txtprograms
+  };
+
   Online.findOneAndUpdate(
     { _id: id },
-    online,
+    onl,
     { upsert: true, new: true },
     function(err, online) {
       if (err) return res.send(err);
@@ -160,8 +192,8 @@ createCheksum = function(online) {
   var postData = {
     appId: "178734b4e7b64cebf065215a437871",
     orderId: online._id,
-    orderAmount: (6500*online.txtprograms.length).toString(),
-    orderCurrency: 'INR',
+    orderAmount: (6500 * online.txtprograms.length).toString(),
+    orderCurrency: "INR",
     customerName: online.txtsname,
     customerPhone: online.txtscontact,
     customerEmail: online.txtsemail,
