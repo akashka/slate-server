@@ -164,6 +164,12 @@ exports.generateOTP = function(req, res, next) {
 };
 
 exports.uploadToS3 = function(req, res, next) {
+  console.log('---------------------------------------------');
+  console.log(req);
+  console.log('---------------------------------------------');
+  console.log('---------------------------------------------');
+  console.log(req.body);
+  console.log('---------------------------------------------');
   let s3bucket = new AWS.S3({
     accessKeyId: IAM_USER_KEY,
     secretAccessKey: IAM_USER_SECRET1 + IAM_USER_SECRET2 + IAM_USER_SECRET3,
