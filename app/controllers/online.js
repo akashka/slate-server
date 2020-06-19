@@ -16,7 +16,7 @@ const IAM_USER_SECRET3 = "GNEEyfqqj4EoS";
 
 // Prod
 const appId = "55951d4b110b9d49671830c8815955";
-const secretKey = "a282ad45ba9338cf0b9a707777bb4b821dc85375";
+const secretKey = "bf07ea8900c98c93eafd37654764bcc7248ca30d";
 
 // Test
 // const appId = '178734b4e7b64cebf065215a437871';
@@ -159,6 +159,7 @@ exports.generateOTP = function(req, res, next) {
       console.log(err);
       return res.send(err);
     }
+    console.log(body);
     res.json(body);
   });
 };
