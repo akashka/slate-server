@@ -32,6 +32,7 @@ exports.payments = function(req, res, next) {
     online = online[0];
     var ols = {
       paymentStatus: body.txStatus,
+      paymentDetails: body,
       txtsname: online.txtsname,
       txtsdob: online.txtsdob,
       txtsadd: online.txtsadd,
@@ -127,7 +128,8 @@ exports.updateOnline = function(req, res, next) {
     photo: online.photo,
     idproof: online.idproof,
     referralcode: online.referralcode,
-    txtprograms: online.txtprograms
+    txtprograms: online.txtprograms,
+    paymentDetails: online.paymentDetails,
   };
 
   Online.findOneAndUpdate(

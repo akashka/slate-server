@@ -76,6 +76,9 @@ var OnlineSchema = new mongoose.Schema(
     },
     paymentStatus: {
       type: String
+    },
+    paymentDetails: {
+      type: Object
     }
   },
   {
