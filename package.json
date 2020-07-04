@@ -34,7 +34,9 @@
     "passport": "^0.3.2",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
+    "pusher": "^3.0.1",
     "request-promise": "^4.2.1",
+    "sentiment": "^5.0.2",
     "speakeasy": "^2.0.0"
   }
 }
