@@ -66,7 +66,7 @@ var InstructorSchema = new mongoose.Schema({
         default: true
     },
     photo: {
-        type: String,
+        type: Array,
     },
     enquiry_by: {
         type: String
@@ -74,8 +74,32 @@ var InstructorSchema = new mongoose.Schema({
     enquiry_datetime: {
         type: Date,
         default: new Date()
-    }
-
+    },
+    salary: {
+        type: String,
+    },
+    bank_account_number: {
+        type: String,
+    },
+    bank_account_name: {
+        type: String,
+    },
+    bank_ifsc_code: {
+        type: String,
+    },
+    pan_no: {
+        type: String,
+    },
+    pf_no: {
+        type: String,
+    },
+    address_proof: {
+        type: Array,
+    },
+    id_proof: {
+        type: Array,
+    },
+    
 }, {
         timestamps: true
     });
