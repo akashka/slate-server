@@ -10,6 +10,7 @@ var AuthenticationController = require("./controllers/authentication"),
   InventoryController = require("./controllers/inventory"),
   PassBookControler = require("./controllers/passbook"),
   OnlineController = require("./controllers/online"),
+  ChatController = require("./controllers/chats"),
   express = require("express"),
   passportService = require("../config/passport"),
   passport = require("passport");
@@ -50,7 +51,8 @@ module.exports = function(app) {
     priceMappingRoutes = express.Router(),
     inventoryRoutes = express.Router(),
     passbookRoutes = express.Router(),
-    onlineRoutes = express.Router();
+    onlineRoutes = express.Router(),
+    chatRoutes = express.Router();
 
   apiRoutes.use("/auth", authRoutes);
   authRoutes.post("/register", AuthenticationController.register);
@@ -130,6 +132,14 @@ module.exports = function(app) {
   onlineRoutes.post("/", OnlineController.createOnline);
   onlineRoutes.put("/", OnlineController.updateOnline);
   onlineRoutes.post("/payments", OnlineController.payments);
+
+  // Chat Routes
+  apiRoutes.use("/chats", chatRoutes);
+  chatRoutes.get("/list", ChatController.getChatListing);
+  chatRoutes.get("/messages/:chatId/:userId", ChatController.getChatMessages);
+  chatRoutes.put("/messages/:id", ChatController.updateChatMessage);
+  chatRoutes.put("/:id", ChatController.updateChat);
+  chatRoutes.post("/", ChatController.createChat);
 
   apiRoutes.get("/generateOTP/:phonenumber", OnlineController.generateOTP);
   apiRoutes.post("/uploadToS3", OnlineController.uploadToS3);
