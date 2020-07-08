@@ -1,126 +1,153 @@
-var mongoose = require('mongoose');
- 
-var StudentSchema = new mongoose.Schema({
- 
+var mongoose = require("mongoose");
+
+var StudentSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     grade: {
-        type: Number,
+      type: Number
     },
     school_name: {
-        type: String,
+      type: String
     },
     school_address: {
-        type: String,
+      type: String
     },
     mobile_no: {
-        type: String,
-        required: true,
-        index: { unique: true },
+      type: String,
+      required: true,
+      index: { unique: true }
     },
     whatsapp_no: {
-        type: String,
+      type: String
     },
     email_id: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     dob: {
-        type: Date,
-        required: true,
+      type: Date,
+      required: true
     },
     parent_name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     address: {
-        type: String,
+      type: String
     },
     state: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     district: {
-        type: String,
+      type: String
     },
     area: {
-        type: String,
+      type: String
     },
     program: {
-        type: Array
+      type: Array
     },
     contact_time: {
-        type: String,
+      type: String
     },
     status: {
-        type: String,
+      type: String
     },
     referral: {
-        type: String,
+      type: String
     },
     remarks: {
-        type: String,
+      type: String
     },
     active: {
-        type: Boolean,
-        required: true,
-        default: true
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    registration_no: {
+      type: String
     },
     photo: {
-        type: String,
+      type: Array
     },
     enquiry_by: {
-        type: String
+      type: String
     },
     enquiry_datetime: {
-        type: Date,
-        default: new Date()
+      type: Date,
+      default: new Date()
     },
-    registration_fee: {
-        type: Number,
-        default: 0,
-    },
-    kit_fee: {
-        type: Number,
-        default: 0,
-    },
-    extra_fee: {
-        type: Number,
-        default: 0,
-    },
-    discount: {
-        type: Number,
-        default: 0,
-    },
-    total_amount_paid: {
-        type: Number,
-        default: 0,
-    },
+    // enrollment_fee: {
+    //     type: Number,
+    //     default: 0,
+    // },
+    // student_fee: {
+    //     type: Number,
+    //     default: 0,
+    // },
+    // registration_fee: {
+    //     type: Number,
+    //     default: 0,
+    // },
+    // kit_fee: {
+    //     type: Number,
+    //     default: 0,
+    // },
+    // extra_fee: {
+    //     type: Number,
+    //     default: 0,
+    // },
+    // tuition_fee: {
+    //     type: Number,
+    //     default: 0,
+    // },
+    // discount: {
+    //     type: Number,
+    //     default: 0,
+    // },
+    // total_amount_paid: {
+    //     type: Number,
+    //     default: 0,
+    // },
     kit_number: {
-        type: String,
+      type: String
     },
     course_instructor: {
-        type: String,
+      type: Array
+    },
+    birth_certificate: {
+      type: Array
+    },
+    id_proof: {
+      type: Array
     },
     level: {
-        type: Number,
-        required: true,
-        default: 0,
+      type: Number,
+      default: 1
+    },
+    batch_no: {
+      type: String
     },
     promotions: {
-        type: Array,
+      type: Array
     },
     attendance: {
-        type: Array,
+      type: Array
+    },
+    payments: {
+      type: Array
     }
-
-}, {
+  },
+  {
     timestamps: true
-});
- 
-module.exports = mongoose.model('Student', StudentSchema);
+  }
+);
+
+module.exports = mongoose.model("Student", StudentSchema);
 
 /* promotion: {
     promotion_date, promotion_by, promotion_to, marks_scored, marks_sheet attachment, remarks,

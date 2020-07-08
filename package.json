@@ -21,6 +21,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
+    "csv-writer": "^1.6.0",
     "curlrequest": "^1.0.1",
     "express": "^4.14.0",
     "json2csv": "^3.11.5",
@@ -34,7 +35,10 @@
     "passport": "^0.3.2",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
+    "phantom-html-to-pdf": "^0.6.0",
+    "pptxgenjs": "^3.2.1",
     "pusher": "^3.0.1",
+    "qrcode": "^1.4.4",
     "request-promise": "^4.2.1",
     "sentiment": "^5.0.2",
     "speakeasy": "^2.0.0"

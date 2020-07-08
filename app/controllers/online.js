@@ -145,7 +145,7 @@ exports.updateOnline = function(req, res, next) {
 
 exports.generateOTP = function(req, res, next) {
   console.log(req.params);
-  var username = req.params.number;
+  var username = req.params.phonenumber;
   var otp = otpGenerator.generate(4, {
     upperCase: false,
     specialChars: false,
@@ -156,13 +156,14 @@ exports.generateOTP = function(req, res, next) {
     otp +
     " This is valid for 15 minutes only. Do not share this OTP with anyone for security reasons.";
   var formData = smsUrl + username + "&text=" + encodeURIComponent(messageData);
+console.log('formData', formData);
   curl.request(formData, function optionalCallback(err, body) {
     if (err) {
       console.log(err);
       return res.send(err);
     }
     console.log(body);
-    res.json(body);
+    res.json(otp);
   });
 };
 

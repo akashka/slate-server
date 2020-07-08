@@ -93,6 +93,7 @@ module.exports = function(app) {
   // Student Routes
   apiRoutes.use("/students", studentRoutes);
   studentRoutes.get("/", StudentController.getStudent);
+  studentRoutes.post("/sendFeeReceipt", StudentController.sendFeeReceipt);
   studentRoutes.post("/", StudentController.createStudent);
   studentRoutes.put("/", StudentController.updateStudent);
 
