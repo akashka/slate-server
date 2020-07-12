@@ -94,13 +94,11 @@ exports.updateChat = function(req, res, next) {
     { _id: id },
     {
       $set: {
-        group_id: req.body.group_id,
-        dp: req.body.dp,
         name: req.body.name,
         members: req.body.members,
         silent_members: req.body.silent_members,
+        dp: req.body.dp,
         admin: req.body.admin,
-        last_login: req.body.last_login,
         active: req.body.active
       }
     },

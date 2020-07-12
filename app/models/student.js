@@ -81,38 +81,6 @@ var StudentSchema = new mongoose.Schema(
       type: Date,
       default: new Date()
     },
-    // enrollment_fee: {
-    //     type: Number,
-    //     default: 0,
-    // },
-    // student_fee: {
-    //     type: Number,
-    //     default: 0,
-    // },
-    // registration_fee: {
-    //     type: Number,
-    //     default: 0,
-    // },
-    // kit_fee: {
-    //     type: Number,
-    //     default: 0,
-    // },
-    // extra_fee: {
-    //     type: Number,
-    //     default: 0,
-    // },
-    // tuition_fee: {
-    //     type: Number,
-    //     default: 0,
-    // },
-    // discount: {
-    //     type: Number,
-    //     default: 0,
-    // },
-    // total_amount_paid: {
-    //     type: Number,
-    //     default: 0,
-    // },
     kit_number: {
       type: String
     },
@@ -140,6 +108,12 @@ var StudentSchema = new mongoose.Schema(
     },
     payments: {
       type: Array
+    },
+    confirm_datetime: {
+      type: Date,
+    },
+    confirm_by: {
+      type: String,
     }
   },
   {

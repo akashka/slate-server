@@ -6,6 +6,8 @@ var Student = require("../models/student"),
 var sgMail = require("@sendgrid/mail");
 const createCsvWriter = require("csv-writer").createArrayCsvWriter;
 var PptxGenJS = require("pptxgenjs");
+var moment = require("moment");
+var pdf = require("html-pdf");
 
 var apiKey = "SG";
 apiKey += ".41G";
@@ -45,42 +47,21 @@ exports.updateStudent = function(req, res, next) {
   let id = req.body._id;
   let student = req.body;
   delete student._id;
+  delete student.__v;
 
   Student.findOneAndUpdate(
     { _id: id },
     student,
     { upsert: true, new: true },
     function(err, student) {
-      if (err) return res.send(err);
+      if (err) {
+        console.log("Error in updating student: " + JSON.stringify(err));
+        return res.send(err);
+      }
       res.json(student);
     }
   );
 };
-
-// var abc = {
-//   name: "",
-//   parent_name: "",
-//   registration_no: "",
-//   receipt_no: "",
-//   email_id: "",
-//   batch_no: "",
-//   programmes: [],
-//   amount: 0,
-//   level: 1,
-//   month: "Jan",
-//   particulars: [],
-//   center: {
-//     email_id: "",
-//     name: "",
-//     code: "",
-//     addressLine1: "",
-//     addressLine2: "",
-//     phone: ""
-//   },
-//   payment_mode: "",
-//   cheque_dt: "",
-//   bank_name: ""
-// };
 
 function Rs(amount) {
   var words = [
@@ -206,15 +187,8 @@ function RsPaise(n) {
     if (whole != "" && fraction != "") {
       op = "Rupees " + whole + "and paise " + fraction + " only";
     }
-    amt = document.getElementById("amt").value;
-    if (amt > 999999999.99) {
-      op = "Oops!!! The amount is too big to convert";
-    }
-    if (isNaN(amt) == true) {
-      op = "Error : Amount in number appears to be incorrect. Please Check.";
-    }
-    document.getElementById("op").innerHTML = op;
   }
+  return op;
 }
 
 function joinArray(arr) {
@@ -244,7 +218,8 @@ var sendInfoMail = function(subject, mailTemplate, mailTo, bcc, attachments) {
     to: mailTo,
     from: "info@aloha.com",
     subject: subject,
-    text: JSON.stringify(mailTemplate)
+    text: "  ",
+    html: mailTemplate
   };
   if (bcc) {
     mailOptions.bcc = bcc;
@@ -252,8 +227,9 @@ var sendInfoMail = function(subject, mailTemplate, mailTo, bcc, attachments) {
   if (attachments) {
     mailOptions.attachments = attachments;
   }
+
   sgMail.send(mailOptions, function(err) {
-    console.log(err);
+    console.log("Err in mailing: " + err);
   });
 };
 
@@ -263,14 +239,15 @@ exports.sendFeeReceipt = function(req, res, next) {
   var text = "Student Name: " + student.name + "\n";
   text += "Reg. No: " + student.registration_no + "\n";
   text += "Receipt No: " + student.receipt_no + "\n";
-  text += "Bill Dt: " + moment().format("dd/MMM/YYYY");
+  text += "Bill Dt: " + moment(student.bill_dt).format("dd/MMM/YYYY");
 
+  console.log("Generating QR Code");
   QRCode.toDataURL(text, function(err, body) {
     var qrImage = err
       ? "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgICAgIBwcHBwcHBwoIBwcHBw8ICQcKFREWFhURExMYHSggGBolJxMTITEhJSkrLi4uFx8zODMsNygtLisBCgoKDQ0NFQ8PFSsdFR0rKys3Ny0rKys3KysrNys3KzcrLSsrKysrKystKysrLSsrLSsrKzcrLSsrKysrKysrK//AABEIASwAqAMBIgACEQEDEQH/xAAYAAEBAQEBAAAAAAAAAAAAAAAAAQIDB//EABwQAQEBAQEAAwEAAAAAAAAAAAABEQJBITFRA//EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFxEBAQEBAAAAAAAAAAAAAAAAAAERIf/aAAwDAQACEQMRAD8A9xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS1U+NBQAAAAAAAAAAAAASrExQAAASArLQAAAAAAAAAAAAACUFAAAAAAAAAAAAAAAAAAAAAAAAEigAAAAAAAAAAAAAAAAAAIoAAAnqpICgAAAAAAAAAAAAAAAAAAAAAAAAAkUgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAigAAAAAAAAAAAAAAAAJ6qRQRQAAAAAAAAAAAAAAAAABKBFAAAAAAEoAluS04+RGgBQAAAAAAABFAAAAAAAEUBj+n1n6vMyNYCZ0AFAAAAAAAAAAAAAAAAAABi9xqUFE1QAAAAAAAAAAAAAAAAGO98bTBK4c8Xdrt41hQkxy53XVmRpIoAoAAAAAAAAAAAAAAAAJaqUEjSRQAAAAAAf/Z"
       : body;
     var stringTemplate = fs.readFileSync(
-      path.join(__dirname, "../../helpers") + "/receipt.html",
+      path.join(__dirname, "../helpers") + "/paymentreceipt.html",
       "utf8"
     );
 
@@ -308,7 +285,7 @@ exports.sendFeeReceipt = function(req, res, next) {
     );
     stringTemplate = stringTemplate.replace(
       "{{Date}}",
-      moment().format("dd/MMM/YYYY")
+      moment(student.bill_dt).format("DD/MMM/YYYY")
     );
     stringTemplate = stringTemplate.replace(
       "{{StudentRegNo}}",
@@ -316,11 +293,11 @@ exports.sendFeeReceipt = function(req, res, next) {
     );
     stringTemplate = stringTemplate.replace(
       "{{StudentName}}",
-      student.name ? student.name : ""
+      student.name ? student.name.toUpperCase() : ""
     );
     stringTemplate = stringTemplate.replace(
       "{{ParentName}}",
-      student.parent_name ? student.parent_name : ""
+      student.parent_name ? student.parent_name.toUpperCase() : ""
     );
     stringTemplate = stringTemplate.replace(
       "{{AmountInWords}}",
@@ -351,12 +328,16 @@ exports.sendFeeReceipt = function(req, res, next) {
       student.batch_no ? student.batch_no : ""
     );
     stringTemplate = stringTemplate.replace(
+      "{{CenterCode}}",
+      student.center && student.center.code ? student.center.code : ""
+    );
+    stringTemplate = stringTemplate.replace(
       "{{PaymentMode}}",
       student.payment_mode ? student.payment_mode : ""
     );
     stringTemplate = stringTemplate.replace(
       "{{PayDate}}",
-      student.cheque_dt ? student.cheque_dt : ""
+      student.cheque_dt ? moment(student.cheque_dt).format("DD/MMM/YYYY") : ""
     );
     stringTemplate = stringTemplate.replace(
       "{{BankDetails}}",
@@ -416,30 +397,33 @@ exports.sendFeeReceipt = function(req, res, next) {
         : "none"
     );
 
-    // Send mail now
     var mailTemplate = fs.readFileSync(
       path.join(__dirname, "../helpers") + "/receipt.html",
       "utf8"
     );
-    var attachmentDetails = [
-      {
-        content: stringTemplate.toString("base64"),
-        filename: "receipt.pdf",
-        type: "application/pdf",
-        disposition: "attachment",
-        contentId: "receipt"
-      }
-    ];
 
-    sendInfoMail(
-      "Thankyou for Payment at Aloha India",
-      mailTemplate,
-      student.email_id,
-      student.center.email_id,
-      attachmentDetails
-    );
-    // Mail sent
+    pdf.create(stringTemplate).toBuffer(function(err, buffer) {
+      encodedData = buffer.toString("base64");
+      var attachmentDetails = [
+        {
+          content: encodedData,
+          filename: "receipt.pdf"
+        }
+      ];
 
-    res.send("Success");
+      sendInfoMail(
+        "Thankyou for Payment at Aloha India",
+        mailTemplate,
+        student.email_id,
+        student.center && student.center.email_id
+          ? student.center.email_id
+          : "",
+        attachmentDetails
+      );
+      // Mail sent
+
+      console.log("success");
+      // res.send("Success");
+    });
   });
 };
