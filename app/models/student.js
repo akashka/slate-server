@@ -110,10 +110,13 @@ var StudentSchema = new mongoose.Schema(
       type: Array
     },
     confirm_datetime: {
-      type: Date,
+      type: Date
     },
     confirm_by: {
-      type: String,
+      type: String
+    },
+    follow_up: {
+      type: Array
     }
   },
   {

@@ -99,6 +99,9 @@ var InstructorSchema = new mongoose.Schema({
     id_proof: {
         type: Array,
     },
+    follow_up: {
+        type: Array
+    },
     
 }, {
         timestamps: true
