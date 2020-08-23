@@ -89,6 +89,7 @@ module.exports = function(app) {
   instructorRoutes.get("/", InstructorController.getInstructors);
   instructorRoutes.post("/", InstructorController.createInstructor);
   instructorRoutes.put("/", InstructorController.updateInstructor);
+  instructorRoutes.post("/printIdCard", InstructorController.printIdCard);
 
   // Student Routes
   apiRoutes.use("/students", studentRoutes);

@@ -113,6 +113,12 @@ var FranchiseSchema = new mongoose.Schema(
       type: Date,
       default: new Date()
     },
+    confirmation_by: {
+      type: String
+    },
+    confirmation_datetime: {
+      type: Date
+    },
     gstin_no: {
       type: String
     },

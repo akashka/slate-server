@@ -1,110 +1,120 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
-var InstructorSchema = new mongoose.Schema({
-
+var InstructorSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     instructor_state: {
-        type: String,
+      type: String
     },
     instructor_district: {
-        type: String,
+      type: String
     },
     instructor_area: {
-        type: String,
+      type: String
     },
     program: {
-        type: Array,
-        required: true,
+      type: Array,
+      required: true
     },
     address: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     pincode: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     mobile_no: {
-        type: String,
-        required: true,
-        index: { unique: true },
+      type: String,
+      required: true,
+      index: { unique: true }
     },
     whatsapp_no: {
-        type: String
+      type: String
     },
     email_id: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     dob: {
-        type: Date,
+      type: Date
     },
     qualification: {
-        type: String,
+      type: String
     },
     old_organization_name: {
-        type: String,
+      type: String
     },
     old_organization_designation: {
-        type: String,
+      type: String
     },
     total_experience: {
-        type: String,
+      type: String
     },
     status: {
-        type: String,
+      type: String
     },
     remarks: {
-        type: String,
+      type: String
     },
     active: {
-        type: Boolean,
-        required: true,
-        default: true
+      type: Boolean,
+      required: true,
+      default: true
     },
     photo: {
-        type: Array,
+      type: Array
     },
     enquiry_by: {
-        type: String
+      type: String
     },
     enquiry_datetime: {
-        type: Date,
-        default: new Date()
+      type: Date,
+      default: new Date()
     },
     salary: {
-        type: String,
+      type: String
     },
     bank_account_number: {
-        type: String,
+      type: String
     },
     bank_account_name: {
-        type: String,
+      type: String
     },
     bank_ifsc_code: {
-        type: String,
+      type: String
     },
     pan_no: {
-        type: String,
+      type: String
     },
     pf_no: {
-        type: String,
+      type: String
     },
     address_proof: {
-        type: Array,
+      type: Array
     },
     id_proof: {
-        type: Array,
+      type: Array
     },
     follow_up: {
-        type: Array
+      type: Array
     },
-    
-}, {
-        timestamps: true
-    });
+    tenure: {
+      type: Number
+    },
+    confirmation_by: {
+      type: String
+    },
+    confirmation_datetime: {
+      type: Date
+    }
+  },
+  {
+    timestamps: true
+  }
+);
 
-module.exports = mongoose.model('Instructor', InstructorSchema);
+module.exports = mongoose.model("Instructor", InstructorSchema);
