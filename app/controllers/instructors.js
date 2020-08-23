@@ -175,6 +175,9 @@ var sendInfoMail = function(subject, mailTemplate, mailTo, attachments) {
   if (attachments) {
     mailOptions.attachments = attachments;
   }
+
+  console.log("mailOptions", mailOptions);
+
   sgMail.send(mailOptions, function(err) {
     console.log("Err in mailing: " + err);
   });
