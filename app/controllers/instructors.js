@@ -1,4 +1,23 @@
-var Instructor = require("../models/instructor");
+var Instructor = require("../models/instructor"),
+  path = require("path"),
+  fs = require("fs"),
+  conversion = require("phantom-html-to-pdf")(),
+  QRCode = require("qrcode");
+var sgMail = require("@sendgrid/mail");
+const createCsvWriter = require("csv-writer").createArrayCsvWriter;
+var PptxGenJS = require("pptxgenjs");
+var moment = require("moment");
+var pdf = require("html-pdf");
+
+var apiKey = "SG";
+apiKey += ".41G";
+apiKey += "-EH6mS";
+apiKey += "-WT7ZWg_5bH";
+apiKey += "-g";
+apiKey += ".gEep1FU0lKjI8";
+apiKey += "D4gd4zpY7a5HR7";
+apiKey += "Up9jmE0AENHKO09A";
+sgMail.setApiKey(apiKey);
 
 exports.getInstructors = function(req, res, next) {
   Instructor.find(function(err, instructors) {
