@@ -1,136 +1,140 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
-var FranchiseSchema = new mongoose.Schema({
-
+var FranchiseSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     franchise_type: {
-        type: String,
-        required: true,
-        enum: ['state', 'district', 'unit']
+      type: String,
+      required: true,
+      enum: ["state", "district", "unit"]
     },
     franchise_state: {
-        type: String,
+      type: String
     },
     franchise_district: {
-        type: String,
+      type: String
     },
     franchise_area: {
-        type: String,
+      type: String
     },
     address: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     pincode: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     mobile_no: {
-        type: String,
-        required: true,
-        index: { unique: true },
+      type: String,
+      required: true,
+      index: { unique: true }
     },
     whatsapp_no: {
-        type: String
+      type: String
     },
     email_id: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     dob: {
-        type: Date,
+      type: Date
     },
     present_occupation: {
-        type: String,
+      type: String
     },
     business_type: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
     },
     capital: {
-        type: String,
+      type: String
     },
     qualification: {
-        type: String,
+      type: String
     },
     start_timeframe: {
-        type: String,
+      type: String
     },
     programs_interested: {
-        type: Array,
+      type: Array
     },
     working_hours: {
-        type: String,
+      type: String
     },
     reference_source: {
-        type: String,
+      type: String
     },
     referral: {
-        type: String,
+      type: String
     },
     status: {
-        type: String,
+      type: String
     },
     remarks: {
-        type: String,
+      type: String
     },
     active: {
-        type: Boolean,
-        required: true,
-        default: true
+      type: Boolean,
+      required: true,
+      default: true
     },
     address_proof: {
-        type: Array,
+      type: Array
     },
     id_proof: {
-        type: Array,
+      type: Array
     },
     gst_certificate: {
-        type: Array,
+      type: Array
     },
     pan_card: {
-        type: Array,
+      type: Array
     },
     registration_certificate: {
-        type: Array,
+      type: Array
     },
     partnership_deed: {
-        type: Array,
+      type: Array
     },
     photo: {
-        type: Array,
+      type: Array
     },
     follow_up: {
-        type: Array
+      type: Array
     },
     enquiry_by: {
-        type: String
+      type: String
     },
     enquiry_datetime: {
-        type: Date,
-        default: new Date()
+      type: Date,
+      default: new Date()
     },
     gstin_no: {
-        type: String,
+      type: String
     },
     royalty_percentage: {
-        type: String,
+      type: String
     },
     bank_account_number: {
-        type: String,
+      type: String
     },
     bank_account_name: {
-        type: String,
+      type: String
     },
     bank_ifsc_code: {
-        type: String,
+      type: String
+    },
+    tenure: {
+      type: Number
     }
+  },
+  {
+    timestamps: true
+  }
+);
 
-}, {
-        timestamps: true
-    });
-
-module.exports = mongoose.model('Franchise', FranchiseSchema);
+module.exports = mongoose.model("Franchise", FranchiseSchema);
