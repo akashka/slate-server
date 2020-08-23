@@ -158,7 +158,7 @@ exports.printIdCard = function(req, res, next) {
     sendInfoMail(
       "Aloha India Instructor ID Card",
       mailTemplate,
-      card.email_id,
+      card.emailId,
       attachmentDetails
     );
   });
