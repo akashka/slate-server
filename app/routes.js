@@ -97,6 +97,10 @@ module.exports = function(app) {
   studentRoutes.post("/sendFeeReceipt", StudentController.sendFeeReceipt);
   studentRoutes.post("/", StudentController.createStudent);
   studentRoutes.put("/", StudentController.updateStudent);
+  studentRoutes.post(
+    "/printStudentIdCard",
+    StudentController.printStudentIdCard
+  );
 
   // Notifications Routes
   apiRoutes.use("/notifications", notificationsRoutes);
