@@ -15,11 +15,11 @@ const sentiment = new Sentiment();
 //   encrypted: true
 // });
 
-const BUCKET_NAME = "olwspark";
-const IAM_USER_KEY = "AKIAIFJ6LTJD65VW6V4A";
-const IAM_USER_SECRET1 = "XbbcDB1Qo92";
-const IAM_USER_SECRET2 = "wT2wnp4mO9qLGpD+";
-const IAM_USER_SECRET3 = "GNEEyfqqj4EoS";
+const BUCKET_NAME = "alohaindia";
+const IAM_USER_KEY = "AKIASMAYOHKOSSTW43D2";
+const IAM_USER_SECRET1 = "MzYQ9vnB49Bw";
+const IAM_USER_SECRET2 = "WTU1BQPu0xlKcH";
+const IAM_USER_SECRET3 = "R4aQ0tYbPr6j4N";
 
 exports.getChatListing = function(req, res, next) {
   Chat.find(

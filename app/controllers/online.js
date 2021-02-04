@@ -8,11 +8,11 @@ const axios = require("axios");
 var smsUrl =
   "https://smsapp.mx9.in/smpp/?username=alohaindia&password=9790944889&from=ALOHAS&to=91";
 
-const BUCKET_NAME = "olwspark";
-const IAM_USER_KEY = "AKIAIFJ6LTJD65VW6V4A";
-const IAM_USER_SECRET1 = "XbbcDB1Qo92";
-const IAM_USER_SECRET2 = "wT2wnp4mO9qLGpD+";
-const IAM_USER_SECRET3 = "GNEEyfqqj4EoS";
+const BUCKET_NAME = "alohaindia";
+const IAM_USER_KEY = "AKIASMAYOHKOSSTW43D2";
+const IAM_USER_SECRET1 = "MzYQ9vnB49Bw";
+const IAM_USER_SECRET2 = "WTU1BQPu0xlKcH";
+const IAM_USER_SECRET3 = "R4aQ0tYbPr6j4N";
 
 // Prod
 const appId = "55951d4b110b9d49671830c8815955";
@@ -129,7 +129,7 @@ exports.updateOnline = function(req, res, next) {
     idproof: online.idproof,
     referralcode: online.referralcode,
     txtprograms: online.txtprograms,
-    paymentDetails: online.paymentDetails,
+    paymentDetails: online.paymentDetails
   };
 
   Online.findOneAndUpdate(
@@ -156,7 +156,7 @@ exports.generateOTP = function(req, res, next) {
     otp +
     " This is valid for 15 minutes only. Do not share this OTP with anyone for security reasons.";
   var formData = smsUrl + username + "&text=" + encodeURIComponent(messageData);
-console.log('formData', formData);
+  console.log("formData", formData);
   curl.request(formData, function optionalCallback(err, body) {
     if (err) {
       console.log(err);
@@ -200,8 +200,8 @@ exports.uploadToS3 = function(req, res, next) {
 };
 
 createCheksum = function(online) {
-  console.log(secretKey)
-  console.log(appId)
+  console.log(secretKey);
+  console.log(appId);
   var postData = {
     appId: appId,
     orderId: online._id,
