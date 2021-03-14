@@ -213,7 +213,13 @@ function SearchArray(element, array) {
   return "none";
 }
 
-var sendInfoMail = function(subject, mailTemplate, mailTo, bcc, attachments) {
+var sendInfoMailing = function(
+  subject,
+  mailTemplate,
+  mailTo,
+  bcc,
+  attachments
+) {
   var mailOptions = {
     to: mailTo,
     from: "info@aloha.com",
@@ -222,11 +228,17 @@ var sendInfoMail = function(subject, mailTemplate, mailTo, bcc, attachments) {
     html: mailTemplate
   };
   if (bcc) {
-    mailOptions.bcc = bcc;
+    mailOptions.cc = bcc;
   }
   if (attachments) {
     mailOptions.attachments = attachments;
   }
+
+  console.log("-------------------------------------------------------------");
+  console.log("-------------------------------------------------------------");
+  console.log("mailOptions", mailOptions);
+  console.log("-------------------------------------------------------------");
+  console.log("-------------------------------------------------------------");
 
   sgMail.send(mailOptions, function(err) {
     console.log("Err in mailing: " + err);
@@ -412,7 +424,7 @@ exports.sendFeeReceipt = function(req, res, next) {
         }
       ];
 
-      sendInfoMail(
+      sendInfoMailing(
         "Thankyou for Payment at Aloha India",
         mailTemplate,
         student.email_id,
