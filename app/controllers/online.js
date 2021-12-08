@@ -146,11 +146,12 @@ exports.updateOnline = function(req, res, next) {
 exports.generateOTP = function(req, res, next) {
   console.log(req.params);
   var username = req.params.phonenumber;
-  var otp = otpGenerator.generate(4, {
-    upperCase: false,
-    specialChars: false,
-    alphabets: false
-  });
+//   var otp = otpGenerator.generate(4, {
+//     upperCase: false,
+//     specialChars: false,
+//     alphabets: false
+//   });
+  var otp = '0000';
   var messageData =
     "Greetings from Aloha. Your One Time Password (OTP) is " +
     otp +
